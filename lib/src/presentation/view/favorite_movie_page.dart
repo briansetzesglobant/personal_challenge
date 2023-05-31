@@ -45,6 +45,9 @@ class FavoriteMoviePageState extends ConsumerState<FavoriteMoviePage> {
                 border: Border.all(
                   width: Numbers.borderAll,
                 ),
+                color: const Color(
+                  Numbers.colorBackgroundCard,
+                ),
               ),
               child: SingleChildScrollView(
                 child: MovieCard(
@@ -96,8 +99,8 @@ class FavoriteMoviePageState extends ConsumerState<FavoriteMoviePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  width: Numbers.mediumSizedBox,
-                  height: Numbers.mediumSizedBox,
+                  width: Numbers.extraShortSizedBox,
+                  height: Numbers.extraShortSizedBox,
                   child: Image(
                     image: AssetImage(
                       Assets.imageErrorMovie,
@@ -130,7 +133,9 @@ class FavoriteMoviePageState extends ConsumerState<FavoriteMoviePage> {
     return Scaffold(
       appBar: const FavoriteMovieAppBar(),
       body: Container(
-        color: Numbers.colorBackground,
+        color: const Color(
+          Numbers.colorBackground,
+        ),
         width: double.infinity,
         height: double.infinity,
         child: provider.when(
@@ -141,8 +146,8 @@ class FavoriteMoviePageState extends ConsumerState<FavoriteMoviePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    width: Numbers.mediumSizedBox,
-                    height: Numbers.mediumSizedBox,
+                    width: Numbers.extraShortSizedBox,
+                    height: Numbers.extraShortSizedBox,
                     child: Image(
                       image: AssetImage(
                         Assets.imageErrorMovie,

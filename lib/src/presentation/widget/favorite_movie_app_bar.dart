@@ -24,7 +24,9 @@ class FavoriteMovieAppBar extends StatelessWidget
         BoxConstraints constraints,
       ) {
         return ColoredBox(
-          color: Numbers.colorAppBar,
+          color: const Color(
+            Numbers.colorAppBar,
+          ),
           child: Expanded(
             child: Stack(
               children: [

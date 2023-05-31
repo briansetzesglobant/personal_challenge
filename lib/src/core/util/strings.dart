@@ -8,13 +8,17 @@ abstract class Strings {
   static const String errorMessage =
       'An error has occurred while loading movies:';
 
-  static const String movieDatabaseName = 'movie';
-  static const String favoriteMovieDatabaseName = 'favoriteMovie';
-
   static const String homePageEmptySearch = '';
   static const String homePageSnackBar =
-      'The selected image were saved in the database';
+      'The selected movie were saved in the database';
+  static const String homePageAddButton = 'Add to favorites';
   static const String homeAppBarSearch = 'Search movies:';
   static const String favoriteMovieAppBarTitle = 'Favorite Movies';
   static const String movieCarDescription = 'Description:';
+  static const String movieCarCloseButton = 'Close';
+
+  static const String movieDatabaseNameTable = 'movie';
+  static const String favoriteMovieDatabaseNameTable = 'favoriteMovie';
+  static const String movieDatabaseId = 'id';
+  static const String movieDatabaseTitle = 'title';
 }

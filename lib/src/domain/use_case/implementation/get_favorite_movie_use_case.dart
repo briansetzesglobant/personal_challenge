@@ -1,4 +1,3 @@
-import 'package:personal_challenge/src/domain/entity/movie_entity.dart';
 import '../../../core/resource/data_state.dart';
 import '../../../core/use_case/use_case_interface.dart';
 import '../../../data/repository/movie_repository.dart';
@@ -10,7 +9,7 @@ class GetFavoriteMovieUseCase extends UseCaseInterface<void> {
   @override
   Future<DataState<MoviesListEntity>> call({
     String? nameMovie,
-    MovieEntity? movie,
+    int? id,
   }) async {
     return await movieRepository.getFavoriteMovies();
   }
