@@ -28,69 +28,113 @@ class HomePageState extends ConsumerState<HomePage> {
   Widget _swiper(List<MovieEntity> movies) {
     return SizedBox(
       width: Numbers.bigSizedBox,
-      height: Numbers.bigSizedBox,
+      height: Numbers.extraBigSizedBox,
       child: Swiper(
         itemBuilder: (
           BuildContext context,
           int index,
         ) {
-          return InkWell(
-            onTap: () {
-              ref.watch(insertFavoriteMovieProvider(movies[index]));
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  backgroundColor: Numbers.colorAppBar,
-                  content: Text(
-                    Strings.homePageSnackBar,
-                    style: TextStyle(
-                      fontSize: Numbers.thirdSmallFontSize,
-                    ),
-                    textAlign: TextAlign.center,
+          return FittedBox(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: Numbers.secondSmallPadding,
                   ),
-                ),
-              );
-            },
-            child: FittedBox(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: Numbers.bigSizedBox,
-                    height: Numbers.bigSizedBox,
+                  child: SizedBox(
+                    width: Numbers.extraBigSizedBox,
+                    height: Numbers.extraBigSizedBox,
                     child: CachedNetworkImage(
                       fit: BoxFit.fill,
-                      placeholder: (context, url) => Image.asset(
+                      placeholder: (
+                        context,
+                        url,
+                      ) =>
+                          Image.asset(
                         Assets.imageDefaultThumb,
                         fit: BoxFit.fill,
                       ),
                       imageUrl:
                           '${ApiService.imageNetwork}${movies[index].posterPath}',
-                      errorWidget: (context, url, error) => Image.asset(
+                      errorWidget: (
+                        context,
+                        url,
+                        error,
+                      ) =>
+                          Image.asset(
                         Assets.imageDefaultThumb,
                         fit: BoxFit.fill,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: Numbers.secondMediumPadding,
-                      bottom: Numbers.firstBigPadding,
-                    ),
-                    child: SizedBox(
-                      width: Numbers.bigSizedBox,
-                      child: Center(
-                        child: AutoSizeText(
-                          movies[index].title,
-                          style: const TextStyle(
-                            fontSize: Numbers.secondMediumFontSize,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: Numbers.firstSmallPadding,
+                  ),
+                  child: SizedBox(
+                    width: Numbers.extraBigSizedBox,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            ref.watch(
+                                insertFavoriteMovieProvider(movies[index].id));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor: Color(
+                                  Numbers.colorAppBar,
+                                ),
+                                content: Text(
+                                  Strings.homePageSnackBar,
+                                  style: TextStyle(
+                                    fontSize: Numbers.thirdSmallFontSize,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              const Color(
+                                Numbers.colorAppBar,
+                              ),
+                            ),
                           ),
-                          maxLines: Numbers.autoSizeTextMaxLines,
+                          child: const AutoSizeText(
+                            Strings.homePageAddButton,
+                            style: TextStyle(
+                              fontSize: Numbers.firstBigFontSize,
+                            ),
+                            maxLines: Numbers.autoSizeTextMaxLines,
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: Numbers.thirdSmallFontSize,
+                    bottom: Numbers.thirdSmallFontSize,
+                  ),
+                  child: SizedBox(
+                    width: Numbers.extraBigSizedBox,
+                    child: Center(
+                      child: AutoSizeText(
+                        movies[index].title,
+                        style: const TextStyle(
+                          fontSize: Numbers.thirdBigFontSize,
+                        ),
+                        maxLines: Numbers.autoSizeTextMaxLines,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
@@ -98,7 +142,12 @@ class HomePageState extends ConsumerState<HomePage> {
         viewportFraction: Numbers.viewportFraction,
         scale: Numbers.scale,
         pagination: const SwiperPagination(),
-        control: const SwiperControl(),
+        control: const SwiperControl(
+          color: Color(
+            Numbers.colorAppBar,
+          ),
+          size: Numbers.swiperControl,
+        ),
       ),
     );
   }
@@ -141,8 +190,8 @@ class HomePageState extends ConsumerState<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  width: Numbers.mediumSizedBox,
-                  height: Numbers.mediumSizedBox,
+                  width: Numbers.extraShortSizedBox,
+                  height: Numbers.extraShortSizedBox,
                   child: Image(
                     image: AssetImage(
                       Assets.imageErrorMovie,
@@ -183,7 +232,9 @@ class HomePageState extends ConsumerState<HomePage> {
         onChanged: _executeSearch,
       ),
       body: Container(
-        color: Numbers.colorBackground,
+        color: const Color(
+          Numbers.colorBackground,
+        ),
         width: double.infinity,
         height: double.infinity,
         child: Center(
@@ -195,8 +246,8 @@ class HomePageState extends ConsumerState<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      width: Numbers.mediumSizedBox,
-                      height: Numbers.mediumSizedBox,
+                      width: Numbers.extraShortSizedBox,
+                      height: Numbers.extraShortSizedBox,
                       child: Image(
                         image: AssetImage(
                           Assets.imageErrorMovie,

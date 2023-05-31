@@ -46,5 +46,5 @@ class _MoviesListIterator extends Iterator<MovieEntity> {
   MovieEntity get current => results[index++];
 
   @override
-  bool moveNext() => index < results.length ? true : false;
+  bool moveNext() => index < results.length;
 }

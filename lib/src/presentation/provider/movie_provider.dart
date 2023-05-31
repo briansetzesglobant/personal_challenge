@@ -3,7 +3,6 @@ import 'package:personal_challenge/src/core/use_case/use_case_interface.dart';
 import 'package:personal_challenge/src/domain/entity/movies_list_entity.dart';
 import 'package:personal_challenge/src/domain/use_case/implementation/movie_use_case.dart';
 import '../../core/resource/data_state.dart';
-import '../../domain/entity/movie_entity.dart';
 import '../../domain/use_case/implementation/get_favorite_movie_use_case.dart';
 import '../../domain/use_case/implementation/insert_favorite_movie_use_case.dart';
 
@@ -14,9 +13,9 @@ final movieProvider = FutureProvider.family
 });
 
 final insertFavoriteMovieProvider =
-    FutureProvider.family<void, MovieEntity>((ref, movie) async {
+    FutureProvider.family<void, int>((ref, id) async {
   final provider = ref.watch(insertFavoriteMovieUseCaseProvider);
-  await provider(movie: movie);
+  await provider(id: id);
 });
 
 final getFavoriteMovieProvider =

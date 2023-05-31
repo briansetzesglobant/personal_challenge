@@ -27,7 +27,9 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
         BoxConstraints constraints,
       ) {
         return ColoredBox(
-          color: Numbers.colorAppBar,
+          color: const Color(
+            Numbers.colorAppBar,
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

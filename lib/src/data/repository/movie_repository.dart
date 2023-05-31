@@ -3,7 +3,6 @@ import '../../core/resource/data_state.dart';
 import '../../core/util/strings.dart';
 import '../../domain/entity/movie_entity.dart';
 import '../../domain/entity/movies_list_entity.dart';
-import '../data_source/local/favorite_movie_data_base.dart';
 import '../data_source/local/movie_data_base.dart';
 import '../data_source/remote/movie_api_service.dart';
 import '../../domain/repository/repository_interface.dart';
@@ -11,8 +10,6 @@ import '../../domain/repository/repository_interface.dart';
 class MovieRepository extends RepositoryInterface {
   final MovieApiService movieApiService = MovieApiService();
   final MovieDatabase movieDataBase = MovieDatabase.instance;
-  final FavoriteMovieDatabase favoriteMovieDataBase =
-      FavoriteMovieDatabase.instance;
 
   @override
   Future<DataState<MoviesListEntity>> getMoviesList(String nameMovie) async {
@@ -21,15 +18,13 @@ class MovieRepository extends RepositoryInterface {
     switch (moviesList.type) {
       case DataStateType.success:
         try {
-          if (moviesList.data!.results.isNotEmpty == true) {
-            await movieDataBase.dropMovieTable();
-            for (var movie in moviesList.data!) {
-              await movieDataBase.insertMovie(movie);
-            }
+          for (var movie in moviesList.data!) {
+            await movieDataBase.insertMovie(movie);
           }
           return DataSuccess(
             moviesList.data!.copyWith(
-              results: await movieDataBase.getMovies(),
+              results: await movieDataBase.getMovies(
+                  moviesList.data!.map((movie) => movie.id).toList()),
             ),
           );
         } catch (exception) {
@@ -38,17 +33,19 @@ class MovieRepository extends RepositoryInterface {
           );
         }
       case DataStateType.empty:
-        return await _getDataOfDataBase();
+        return await _getDataOfDataBase(nameMovie);
       case DataStateType.error:
-        return await _getDataOfDataBase();
+        return await _getDataOfDataBase(nameMovie);
     }
   }
 
-  Future<DataState<MoviesListEntity>> _getDataOfDataBase() async {
+  Future<DataState<MoviesListEntity>> _getDataOfDataBase(
+      String nameMovie) async {
     try {
-      List<MovieEntity> results = await movieDataBase.getMovies();
+      List<MovieEntity> results =
+          await movieDataBase.getMoviesBySearch(nameMovie);
       if (results.isNotEmpty) {
-        DataSuccess<MoviesListEntity> dataSuccess = DataSuccess(
+        return DataSuccess(
           MoviesListEntity(
             page: Numbers.moviePageDefaultValue,
             results: results,
@@ -56,7 +53,6 @@ class MovieRepository extends RepositoryInterface {
             totalPages: Numbers.movieTotalPagesDefaultValue,
           ),
         );
-        return dataSuccess;
       } else {
         return const DataEmpty();
       }
@@ -68,17 +64,16 @@ class MovieRepository extends RepositoryInterface {
   }
 
   @override
-  Future<void> insertFavoriteMovie(MovieEntity movie) async {
-    await favoriteMovieDataBase.insertFavoriteMovie(movie);
+  Future<void> insertFavoriteMovieId(int id) async {
+    await movieDataBase.insertFavoriteMovieId(id);
   }
 
   @override
   Future<DataState<MoviesListEntity>> getFavoriteMovies() async {
     try {
-      List<MovieEntity> results =
-          await favoriteMovieDataBase.getFavoriteMovies();
+      List<MovieEntity> results = await movieDataBase.getFavoriteMovies();
       if (results.isNotEmpty) {
-        DataSuccess<MoviesListEntity> dataSuccess = DataSuccess(
+        return DataSuccess(
           MoviesListEntity(
             page: Numbers.moviePageDefaultValue,
             results: results,
@@ -86,7 +81,6 @@ class MovieRepository extends RepositoryInterface {
             totalPages: Numbers.movieTotalPagesDefaultValue,
           ),
         );
-        return dataSuccess;
       } else {
         return const DataEmpty();
       }

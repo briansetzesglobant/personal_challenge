@@ -11,7 +11,10 @@ class MovieDatabase {
   static final FirebaseDatabase _instanceRealtime = FirebaseDatabase.instance;
 
   static final DatabaseReference _movieTable =
-      _instanceRealtime.ref().child(Strings.movieDatabaseName);
+      _instanceRealtime.ref().child(Strings.movieDatabaseNameTable);
+
+  static final DatabaseReference _favoriteMovieTable =
+      _instanceRealtime.ref().child(Strings.favoriteMovieDatabaseNameTable);
 
   Future<void> dropMovieTable() async => await _movieTable.remove();
 
@@ -36,14 +39,70 @@ class MovieDatabase {
         );
   }
 
-  Future<List<MovieEntity>> getMovies() async {
+  Future<List<MovieEntity>> getMovies(List<int> listId) async {
     List<MovieEntity> moviesList = [];
-    DataSnapshot dataSnapshot = await _movieTable.get();
-    if (dataSnapshot.exists) {
-      for (var element in dataSnapshot.children) {
+    DataSnapshot dataSnapshotMovie = await _movieTable.get();
+    if (dataSnapshotMovie.exists) {
+      for (var id in listId) {
         moviesList.add(
           Movie.fromJson(
-            element.value as Map<String, dynamic>,
+            dataSnapshotMovie.children
+                .where((elementMovie) =>
+                    (elementMovie.value
+                        as Map<String, dynamic>)[Strings.movieDatabaseId] ==
+                    id)
+                .first
+                .value as Map<String, dynamic>,
+          ),
+        );
+      }
+    }
+    return moviesList;
+  }
+
+  Future<List<MovieEntity>> getMoviesBySearch(String nameMovie) async {
+    List<MovieEntity> moviesList = [];
+    DataSnapshot dataSnapshotMovie = await _movieTable.get();
+    if (dataSnapshotMovie.exists && nameMovie.isNotEmpty) {
+      moviesList.addAll(dataSnapshotMovie.children
+          .where((elementMovie) => ((elementMovie.value
+                      as Map<String, dynamic>)[Strings.movieDatabaseTitle]
+                  as String)
+              .toLowerCase()
+              .contains(nameMovie.toLowerCase()))
+          .map(
+            (elementMovie) => Movie.fromJson(
+              elementMovie.value as Map<String, dynamic>,
+            ),
+          ));
+    }
+    return moviesList;
+  }
+
+  Future<void> dropFavoriteMovieTable() async =>
+      await _favoriteMovieTable.remove();
+
+  Future<void> insertFavoriteMovieId(int id) async {
+    await _favoriteMovieTable.push().set(
+          id,
+        );
+  }
+
+  Future<List<MovieEntity>> getFavoriteMovies() async {
+    List<MovieEntity> moviesList = [];
+    DataSnapshot dataSnapshotFavoriteMovie = await _favoriteMovieTable.get();
+    DataSnapshot dataSnapshotMovie = await _movieTable.get();
+    if (dataSnapshotFavoriteMovie.exists && dataSnapshotMovie.exists) {
+      for (var elementId in dataSnapshotFavoriteMovie.children) {
+        moviesList.add(
+          Movie.fromJson(
+            dataSnapshotMovie.children
+                .where((elementMovie) =>
+                    (elementMovie.value
+                        as Map<String, dynamic>)[Strings.movieDatabaseId] ==
+                    elementId.value as int)
+                .first
+                .value as Map<String, dynamic>,
           ),
         );
       }
