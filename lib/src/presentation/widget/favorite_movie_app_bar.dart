@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import '../../core/util/assets.dart';
 import '../../core/util/numbers.dart';
@@ -27,52 +28,49 @@ class FavoriteMovieAppBar extends StatelessWidget
           color: const Color(
             Numbers.colorAppBar,
           ),
-          child: Expanded(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: Numbers.firstSmallPaddingYY,
-                    top:
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: Numbers.firstSmallPaddingYY,
+                  top: constraints.maxWidth > Numbers.mediumConstraintsMaxWidth
+                      ? Numbers.firstSmallPadding
+                      : Numbers.thirdSmallPadding,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    AutoRouter.of(context).pushNamed(
+                      Strings.homeRoute,
+                    );
+                  },
+                  child: Image(
+                    image: const AssetImage(
+                      Assets.imageBackArrow,
+                    ),
+                    width:
                         constraints.maxWidth > Numbers.mediumConstraintsMaxWidth
-                            ? Numbers.firstSmallPadding
-                            : Numbers.thirdSmallPadding,
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushReplacementNamed(
-                        Strings.homeRoute,
-                      );
-                    },
-                    child: Image(
-                      image: const AssetImage(
-                        Assets.imageBackArrow,
-                      ),
-                      width: constraints.maxWidth >
-                              Numbers.mediumConstraintsMaxWidth
-                          ? Numbers.mediumImageSize
-                          : Numbers.secondMediumPadding,
-                      height: constraints.maxWidth >
-                              Numbers.mediumConstraintsMaxWidth
-                          ? Numbers.mediumImageSize
-                          : Numbers.secondMediumPadding,
-                    ),
+                            ? Numbers.mediumImageSize
+                            : Numbers.secondMediumPadding,
+                    height:
+                        constraints.maxWidth > Numbers.mediumConstraintsMaxWidth
+                            ? Numbers.mediumImageSize
+                            : Numbers.secondMediumPadding,
                   ),
                 ),
-                Center(
-                  child: Text(
-                    Strings.favoriteMovieAppBarTitle,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: constraints.maxWidth >
-                              Numbers.mediumConstraintsMaxWidth
-                          ? Numbers.firstBigPadding
-                          : Numbers.firstMediumFontSize,
-                    ),
+              ),
+              Center(
+                child: Text(
+                  Strings.favoriteMovieAppBarTitle,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize:
+                        constraints.maxWidth > Numbers.mediumConstraintsMaxWidth
+                            ? Numbers.firstBigPadding
+                            : Numbers.firstMediumFontSize,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

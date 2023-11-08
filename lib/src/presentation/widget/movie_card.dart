@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_challenge/src/core/util/numbers.dart';
@@ -111,7 +112,7 @@ class MovieCard extends StatelessWidget {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  AutoRouter.of(context).pop();
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
