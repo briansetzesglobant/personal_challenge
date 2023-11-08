@@ -6,5 +6,5 @@ part 'env.g.dart';
 @Envied(path: 'assets/env/.env')
 abstract class Env {
   @EnviedField(varName: ApiService.apiKey, obfuscate: true)
-  static final movieApiKey = _Env.movieApiKey;
+  static final String movieApiKey = _Env.movieApiKey;
 }

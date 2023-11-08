@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/util/assets.dart';
@@ -80,7 +81,7 @@ class HomeAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).pushReplacementNamed(
+                        AutoRouter.of(context).pushNamed(
                           Strings.favoriteMoviePageRoute,
                         );
                       },

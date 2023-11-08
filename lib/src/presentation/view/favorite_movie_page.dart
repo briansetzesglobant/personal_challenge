@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import '../../domain/entity/movies_list_entity.dart';
 import '../widget/favorite_movie_app_bar.dart';
 import '../widget/movie_card.dart';
 
+@RoutePage()
 class FavoriteMoviePage extends ConsumerStatefulWidget {
   const FavoriteMoviePage({
     Key? key,

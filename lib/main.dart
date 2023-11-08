@@ -1,10 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'src/config/route/app_routes.dart';
+import 'package:personal_challenge/src/config/route/app_router.dart';
 import 'src/core/util/options_firebase.dart';
 import 'src/core/util/numbers.dart';
-import 'src/core/util/strings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +18,7 @@ void main() async {
   ).then(
     (value) {
       runApp(
-        const ProviderScope(
+        ProviderScope(
           child: MyApp(),
         ),
       );
@@ -28,13 +27,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({
+  MyApp({
     super.key,
   });
 
+  final AppRouter appRouter = AppRouter();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           color: Color(
@@ -43,8 +44,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: Strings.homeRoute,
-      onGenerateRoute: AppRoutes.generateRoute,
+      routerConfig: appRouter.config(),
     );
   }
 }
